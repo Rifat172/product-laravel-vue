@@ -26,7 +26,7 @@ class UpdateProductRequest extends FormRequest
         return [
             'name' => 'sometimes|string|max:255|unique:products,name,' . $productId,
             'description' => 'sometimes|nullable|string',
-            'price' => 'sometimes|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
+            'price' => 'sometimes|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
             'category_id' => 'sometimes|exists:categories,id',
         ];
     }
