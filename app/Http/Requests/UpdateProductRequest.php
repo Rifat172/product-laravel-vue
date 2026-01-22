@@ -24,10 +24,10 @@ class UpdateProductRequest extends FormRequest
         $productId = $this->route('product')->id;
 
         return [
-            'name' => 'sometimes|string|max:255|unique:products,name' . $productId,
+            'name' => 'sometimes|string|max:255|unique:products,name,' . $productId,
             'description' => 'sometimes|nullable|string',
-            'price' => 'sometimes|numeric|min:0|regex:/^\d+(\.{1,2})?$/',
-            'cetegory_id' => 'sometimes|exists:categories,id',
+            'price' => 'sometimes|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
+            'category_id' => 'sometimes|exists:categories,id',
         ];
     }
 }
