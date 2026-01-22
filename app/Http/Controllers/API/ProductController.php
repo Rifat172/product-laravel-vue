@@ -15,7 +15,9 @@ class ProductController extends Controller
      */
     public function index(): JsonResponse
     {
-        $products = Product::with('category')->paginate(15);
+        $products = Product::with('category')
+            ->orderBy('id', 'asc')
+            ->paginate(15);
 
         return response()->json($products);
     }
