@@ -7,15 +7,19 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $products = Product::with('category')
+            ->when($request->category, function ($query, $categoryId) {
+                $query->where('category_id', $categoryId);
+            })
             ->orderBy('id', 'asc')
             ->paginate(15);
 
@@ -29,6 +33,7 @@ class ProductController extends Controller
     {
         $product = Product::create($request->validated());
         $product->load('category');
+
         return response()->json($product, 201);
     }
 
@@ -38,6 +43,7 @@ class ProductController extends Controller
     public function show(Product $product): JsonResponse
     {
         $product->load('category');
+
         return response()->json($product);
     }
 
@@ -48,6 +54,7 @@ class ProductController extends Controller
     {
         $product->update($request->validated());
         $product->load('category');
+
         return response()->json($product);
     }
 

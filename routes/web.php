@@ -10,6 +10,12 @@ Route::get('/', function () {
         'user' => Auth::check() ? Auth::user()->name : null,
     ]);
 });
+Route::get('/main', function () {
+    return Inertia::render('Main');
+});
+Route::get('/product/{id}', function () {
+    return Inertia::render('ProductShow');
+});
 // Страница логина (для гостей)
 Route::get('/login', function () {
     return Inertia::render('Login');
