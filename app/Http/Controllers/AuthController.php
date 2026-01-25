@@ -31,8 +31,15 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if(Auth::attempt($request->only('email', 'password'))){
-            return response()->json(['message' => 'Logged in', 'user' => Auth::user()]);
+        // Попытка логина
+        if (Auth::attempt($request->only('email', 'password'))) {
+            // Обязательная регенерация сессии для SPA
+            $request->session()->regenerate();
+
+            return response()->json([
+                'message' => 'Logged in',
+                'user' => Auth::user()
+            ]);
         }
 
         return response()->json(['message' => 'Invalid credentials'], 401);
